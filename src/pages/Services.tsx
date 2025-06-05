@@ -1,3 +1,4 @@
+
 import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,8 @@ const Services = () => {
         "Recommandations d'optimisation",
         "Mise en place de nouveaux workflows"
       ],
-      price: "À partir de 2 500€"
+      price: "À partir de 2 500€",
+      link: "/services/process-optimization"
     },
     {
       icon: Zap,
@@ -29,7 +31,8 @@ const Services = () => {
         "Synchronisation de données",
         "Workflows intelligents"
       ],
-      price: "À partir de 1 500€"
+      price: "À partir de 1 500€",
+      link: "/services/automation"
     },
     {
       icon: Settings,
@@ -41,7 +44,8 @@ const Services = () => {
         "Bases de données intégrées",
         "Interface utilisateur intuitive"
       ],
-      price: "À partir de 5 000€"
+      price: "À partir de 5 000€",
+      link: "/services/no-code-development"
     },
     {
       icon: BarChart,
@@ -53,7 +57,8 @@ const Services = () => {
         "KPIs personnalisés",
         "Alertes intelligentes"
       ],
-      price: "À partir de 3 000€"
+      price: "À partir de 3 000€",
+      link: "/services/business-intelligence"
     }
   ];
 
@@ -121,10 +126,12 @@ const Services = () => {
                   </ul>
                   <div className="flex justify-between items-center">
                     <span className="text-2xl font-bold text-blue-600">{service.price}</span>
-                    <Button className="bg-gradient-to-r from-blue-600 to-purple-600">
-                      En savoir plus
-                      <ArrowRight className="ml-2 w-4 h-4" />
-                    </Button>
+                    <Link to={service.link}>
+                      <Button className="bg-gradient-to-r from-blue-600 to-purple-600">
+                        En savoir plus
+                        <ArrowRight className="ml-2 w-4 h-4" />
+                      </Button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>

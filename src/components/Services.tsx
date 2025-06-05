@@ -1,44 +1,38 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Smartphone, Database, Workflow, Globe, Zap, BarChart } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Smartphone, Database, Workflow, Globe, Zap, BarChart, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Services = () => {
   const services = [
     {
-      icon: Smartphone,
-      title: "Applications No-Code",
-      description: "Création d'applications web et mobile sans ligne de code, déployées rapidement avec des outils comme Bubble, Webflow et Glide.",
-      features: ["Interface utilisateur intuitive", "Base de données intégrée", "Déploiement instantané"]
-    },
-    {
       icon: Workflow,
-      title: "Automatisation de Processus",
-      description: "Automatisation de vos tâches répétitives et workflows avec Zapier, Make.com et autres outils d'automatisation.",
-      features: ["Gain de temps significatif", "Réduction des erreurs", "Workflows personnalisés"]
-    },
-    {
-      icon: Database,
-      title: "Intégration de Données",
-      description: "Connexion et synchronisation de vos outils existants pour une vue d'ensemble complète de votre activité.",
-      features: ["APIs connectées", "Synchronisation temps réel", "Tableaux de bord unifiés"]
-    },
-    {
-      icon: Globe,
-      title: "Sites Web Performants",
-      description: "Création de sites web modernes et optimisés pour convertir vos visiteurs en clients fidèles.",
-      features: ["Design responsive", "SEO optimisé", "Performance optimale"]
-    },
-    {
-      icon: BarChart,
-      title: "Tableaux de Bord",
-      description: "Visualisation de vos données métier avec des dashboards interactifs et des rapports automatisés.",
-      features: ["KPIs en temps réel", "Rapports automatiques", "Alertes intelligentes"]
+      title: "Optimisation des Processus",
+      description: "Analyse et amélioration de vos workflows existants pour gagner en efficacité et réduire les tâches manuelles répétitives.",
+      features: ["Audit complet de processus", "Identification des goulots", "Workflows personnalisés"],
+      link: "/services/process-optimization"
     },
     {
       icon: Zap,
-      title: "Consulting & Formation",
-      description: "Accompagnement personnalisé et formation de vos équipes aux outils no-code et d'automatisation.",
-      features: ["Audit de processus", "Formation sur mesure", "Support continu"]
+      title: "Automatisation & Intégration",
+      description: "Automatisation de vos tâches répétitives et workflows avec Zapier, Make.com et autres outils d'automatisation.",
+      features: ["Gain de temps significatif", "Réduction des erreurs", "Intégration d'APIs"],
+      link: "/services/automation"
+    },
+    {
+      icon: Smartphone,
+      title: "Développement No-Code",
+      description: "Création d'applications web et mobile sans ligne de code, déployées rapidement avec des outils comme Bubble, Webflow et Glide.",
+      features: ["Interface utilisateur intuitive", "Base de données intégrée", "Déploiement instantané"],
+      link: "/services/no-code-development"
+    },
+    {
+      icon: BarChart,
+      title: "Tableaux de Bord & BI",
+      description: "Visualisation de vos données métier avec des dashboards interactifs et des rapports automatisés.",
+      features: ["KPIs en temps réel", "Rapports automatiques", "Alertes intelligentes"],
+      link: "/services/business-intelligence"
     }
   ];
 
@@ -54,7 +48,7 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {services.map((service, index) => (
             <Card key={index} className="hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg">
               <CardHeader>
@@ -65,7 +59,7 @@ const Services = () => {
                 <CardDescription className="text-gray-600">{service.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
+                <ul className="space-y-2 mb-6">
                   {service.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center text-sm text-gray-700">
                       <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
@@ -73,6 +67,12 @@ const Services = () => {
                     </li>
                   ))}
                 </ul>
+                <Link to={service.link}>
+                  <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                    En savoir plus
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           ))}
