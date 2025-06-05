@@ -4,10 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Post } from "@/types/blog";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Calendar, User } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BlogPostTemplate from "@/components/blog/BlogPostTemplate";
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -71,71 +71,39 @@ const BlogPost = () => {
     <div className="min-h-screen bg-white">
       <Navbar />
       
-      {/* Article Header */}
-      <section className="bg-gradient-to-br from-blue-50 to-purple-50 py-20">
+      {/* Navigation */}
+      <section className="bg-gray-50 py-8">
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
-            <Link to="/blog">
-              <Button variant="outline" className="mb-8">
-                <ArrowLeft className="mr-2 w-4 h-4" />
-                Retour au blog
-              </Button>
-            </Link>
-
-            <div className="flex items-center gap-4 text-sm text-gray-600 mb-6">
-              <div className="flex items-center gap-2">
-                <User className="w-4 h-4" />
-                {post.author_name}
-              </div>
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                {post.published_at ? new Date(post.published_at).toLocaleDateString('fr-FR') : ''}
-              </div>
-            </div>
-
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              {post.title}
-            </h1>
-
-            {post.excerpt && (
-              <p className="text-xl text-gray-600 mb-8">
-                {post.excerpt}
-              </p>
-            )}
-
-            <div className="flex flex-wrap gap-2 mb-8">
-              {post.tags?.map((tag) => (
-                <Badge key={tag} variant="secondary">{tag}</Badge>
-              ))}
-            </div>
-          </div>
+          <Link to="/blog">
+            <Button variant="outline" className="mb-4">
+              <ArrowLeft className="mr-2 w-4 h-4" />
+              Retour au blog
+            </Button>
+          </Link>
         </div>
       </section>
 
-      {/* Featured Image */}
-      {post.featured_image && (
-        <section className="py-8">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <img 
-                src={post.featured_image} 
-                alt={post.title}
-                className="w-full h-96 object-cover rounded-2xl shadow-lg"
-              />
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Article Content */}
-      <section className="py-20">
+      {/* Contenu de l'article avec le nouveau template */}
+      <section className="py-12">
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
-            <div 
-              className="prose prose-lg max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
-          </div>
+          <BlogPostTemplate post={post} />
+        </div>
+      </section>
+
+      {/* Section CTA */}
+      <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Besoin d'aide pour votre transformation digitale ?
+          </h2>
+          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            Nos experts vous accompagnent dans la mise en place de solutions no-code adaptées à votre entreprise
+          </p>
+          <Link to="/contact">
+            <Button size="lg" variant="secondary" className="text-blue-600 hover:text-blue-700">
+              Contactez-nous
+            </Button>
+          </Link>
         </div>
       </section>
 

@@ -5,12 +5,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { Post } from "@/types/blog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Search, Calendar, User, ArrowRight, BookOpen } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Search, BookOpen } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BlogCard from "@/components/blog/BlogCard";
 
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -120,52 +118,7 @@ const Blog = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredPosts.map((post) => (
-                <Card key={post.id} className="hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg group">
-                  {post.featured_image && (
-                    <div className="overflow-hidden rounded-t-lg">
-                      <img 
-                        src={post.featured_image} 
-                        alt={post.title}
-                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  )}
-                  <CardHeader>
-                    <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
-                      <div className="flex items-center gap-2">
-                        <User className="w-4 h-4" />
-                        {post.author_name}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4" />
-                        {post.published_at ? new Date(post.published_at).toLocaleDateString('fr-FR') : ''}
-                      </div>
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                      {post.title}
-                    </CardTitle>
-                    {post.excerpt && (
-                      <CardDescription className="text-gray-600 line-clamp-3">
-                        {post.excerpt}
-                      </CardDescription>
-                    )}
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {post.tags?.slice(0, 3).map((tag) => (
-                        <Badge key={tag} variant="secondary" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                    <Link to={`/blog/${post.slug}`}>
-                      <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 group-hover:shadow-lg transition-all">
-                        Lire l'article
-                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
+                <BlogCard key={post.id} post={post} />
               ))}
             </div>
           )}
