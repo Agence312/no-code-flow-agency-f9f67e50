@@ -1,4 +1,4 @@
-
+import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Zap, Settings, BarChart, Globe, Database, Workflow } from "lucide-react";
@@ -82,6 +82,7 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <Navbar />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 to-purple-50 py-20">
         <div className="container mx-auto px-6">
