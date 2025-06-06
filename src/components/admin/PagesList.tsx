@@ -27,7 +27,7 @@ const PagesList = ({ onEditPage }: PagesListProps) => {
     queryKey: ['admin-pages'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('pages')
+        .from('pages' as any)
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -47,7 +47,7 @@ const PagesList = ({ onEditPage }: PagesListProps) => {
 
     try {
       const { error } = await supabase
-        .from('pages')
+        .from('pages' as any)
         .delete()
         .eq('id', pageId);
 

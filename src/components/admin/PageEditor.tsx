@@ -100,7 +100,7 @@ const PageEditor = ({ page, isCreating, onBack }: PageEditorProps) => {
   const onSubmit = async (data: FormValues) => {
     try {
       if (isCreating) {
-        const { error } = await supabase.from("pages").insert({
+        const { error } = await supabase.from("pages" as any).insert({
           title: data.title,
           slug: data.slug,
           content: data.content,
@@ -117,7 +117,7 @@ const PageEditor = ({ page, isCreating, onBack }: PageEditorProps) => {
         });
       } else {
         const { error } = await supabase
-          .from("pages")
+          .from("pages" as any)
           .update({
             title: data.title,
             slug: data.slug,
