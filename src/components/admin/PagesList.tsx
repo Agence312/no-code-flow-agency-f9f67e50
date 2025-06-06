@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Page } from "@/types/page";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -16,6 +15,18 @@ import {
 import { Edit, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+interface Page {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  meta_title: string | null;
+  meta_description: string | null;
+  status: 'published' | 'draft';
+  created_at: string;
+  updated_at: string;
+}
+
 interface PagesListProps {
   onEditPage: (page: Page) => void;
 }
@@ -26,8 +37,9 @@ const PagesList = ({ onEditPage }: PagesListProps) => {
   const { data: pages, isLoading, refetch } = useQuery({
     queryKey: ['admin-pages'],
     queryFn: async () => {
+      console.log('Fetching pages...');
       const { data, error } = await supabase
-        .from('pages' as any)
+        .from('pages')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -36,6 +48,7 @@ const PagesList = ({ onEditPage }: PagesListProps) => {
         throw error;
       }
 
+      console.log('Pages fetched:', data);
       return data as Page[];
     },
   });
@@ -47,7 +60,7 @@ const PagesList = ({ onEditPage }: PagesListProps) => {
 
     try {
       const { error } = await supabase
-        .from('pages' as any)
+        .from('pages')
         .delete()
         .eq('id', pageId);
 

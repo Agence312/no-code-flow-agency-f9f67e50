@@ -1,5 +1,5 @@
 
-export type Page = {
+export interface Page {
   id: string;
   title: string;
   slug: string;
@@ -9,4 +9,4 @@ export type Page = {
   status: 'published' | 'draft';
   created_at: string;
   updated_at: string;
-};
+}

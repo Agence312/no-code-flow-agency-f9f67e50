@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Page } from "@/types/page";
 import { ArrowLeft } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -26,6 +25,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+interface Page {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  meta_title: string | null;
+  meta_description: string | null;
+  status: 'published' | 'draft';
+  created_at: string;
+  updated_at: string;
+}
 
 const formSchema = z.object({
   title: z.string().min(3, "Le titre doit contenir au moins 3 caractères"),
@@ -99,8 +110,10 @@ const PageEditor = ({ page, isCreating, onBack }: PageEditorProps) => {
 
   const onSubmit = async (data: FormValues) => {
     try {
+      console.log('Submitting page data:', data);
+      
       if (isCreating) {
-        const { error } = await supabase.from("pages" as any).insert({
+        const { error } = await supabase.from("pages").insert({
           title: data.title,
           slug: data.slug,
           content: data.content,
@@ -109,7 +122,10 @@ const PageEditor = ({ page, isCreating, onBack }: PageEditorProps) => {
           status: data.status,
         });
 
-        if (error) throw error;
+        if (error) {
+          console.error('Error creating page:', error);
+          throw error;
+        }
 
         toast({
           title: "Page créée",
@@ -117,7 +133,7 @@ const PageEditor = ({ page, isCreating, onBack }: PageEditorProps) => {
         });
       } else {
         const { error } = await supabase
-          .from("pages" as any)
+          .from("pages")
           .update({
             title: data.title,
             slug: data.slug,
@@ -129,7 +145,10 @@ const PageEditor = ({ page, isCreating, onBack }: PageEditorProps) => {
           })
           .eq("id", page?.id);
 
-        if (error) throw error;
+        if (error) {
+          console.error('Error updating page:', error);
+          throw error;
+        }
 
         toast({
           title: "Page mise à jour",
