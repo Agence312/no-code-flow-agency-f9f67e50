@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
@@ -7,6 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const [showAdminAccess, setShowAdminAccess] = useState(false);
 
   const navigation = [
     { name: "Accueil", href: "/" },
@@ -20,6 +21,37 @@ const Navbar = () => {
   const isActive = (href: string) => {
     return location.pathname === href;
   };
+
+  // Toggle admin access on triple Alt+A keypress
+  useEffect(() => {
+    let altKeyPressCount = 0;
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.altKey && e.code === "KeyA") {
+        e.preventDefault();
+        altKeyPressCount++;
+        
+        clearTimeout(timeoutId);
+        
+        if (altKeyPressCount === 3) {
+          setShowAdminAccess(prev => !prev);
+          altKeyPressCount = 0;
+        } else {
+          timeoutId = setTimeout(() => {
+            altKeyPressCount = 0;
+          }, 1000);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeydown);
+    
+    return () => {
+      window.removeEventListener("keydown", handleKeydown);
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   return (
     <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
@@ -47,11 +79,13 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
-            <Link to="/admin">
-              <Button variant="outline" size="sm">
-                Admin
-              </Button>
-            </Link>
+            {showAdminAccess && (
+              <Link to="/admin">
+                <Button variant="outline" size="sm">
+                  Admin
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -82,11 +116,13 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
-              <Link to="/admin" onClick={() => setIsOpen(false)}>
-                <Button variant="outline" size="sm" className="w-fit">
-                  Admin
-                </Button>
-              </Link>
+              {showAdminAccess && (
+                <Link to="/admin" onClick={() => setIsOpen(false)}>
+                  <Button variant="outline" size="sm" className="w-fit">
+                    Admin
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         )}
